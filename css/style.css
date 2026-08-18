@@ -1,0 +1,726 @@
+/* =========================================================================
+   1220X ROBOREDUX — SITE STYLESHEET
+   =========================================================================
+   HOW THIS FILE IS ORGANIZED
+   1. Fonts
+   2. Design tokens (colors, spacing, type) -- CHANGE YOUR COLORS HERE
+   3. Reset / base element styles
+   4. Layout helpers (container, section, grid)
+   5. Buttons
+   6. Site header / navigation
+   7. "Frame" corner-bracket component (used around photo placeholders)
+   8. Hero section
+   9. Stat strip ("By the Numbers")
+   10. Eyebrow labels + section headings
+   11. Cards (info cards, team cards, sponsor tier cards)
+   12. Payment / info panel
+   13. CTA band (the colored "become a sponsor" banner)
+   14. Image placeholder component
+   15. Footer
+   16. Responsive breakpoints
+   17. Motion + accessibility
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. FONTS
+   Loaded from Google Fonts in the <head> of each HTML page, not here.
+   Space Grotesk  = headings / display text
+   IBM Plex Mono  = labels, stats, tags (gives it a "telemetry / readout" feel)
+   Inter          = body paragraph text
+------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------
+   2. DESIGN TOKENS
+   ⚙️ EDIT ME: this is the fastest way to reskin the whole site.
+   Right now these are pulled from the sponsorship packet's palette
+   (black, red, blue) plus tier colors for Bronze/Silver/Gold.
+------------------------------------------------------------------------- */
+:root {
+  /* core palette */
+  --ink: #0e1013;         /* near-black, used for text + dark panels */
+  --paper: #f2f3f1;       /* page background */
+  --paper-dim: #e7e8e5;   /* slightly darker panel background */
+  --line: #d3d5d2;        /* hairline borders / dividers */
+  --white: #ffffff;
+
+  /* brand accents -- swap these for your exact team colors any time */
+  --red: #e2032b;
+  --blue: #0b3d91;
+
+  /* sponsorship tier colors */
+  --bronze: #b5651d;
+  --silver: #8f929a;
+  --gold: #c9982b;
+
+  /* type */
+  --font-display: "Space Grotesk", "Arial Black", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.75rem;
+  --space-lg: 3rem;
+  --space-xl: 5.5rem;
+
+  /* layout */
+  --container-w: 1120px;
+  --radius: 2px; /* keep corners sharp/technical -- raise this if you want a softer look */
+}
+
+/* -------------------------------------------------------------------------
+   3. RESET / BASE
+------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0 0 var(--space-sm);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); text-transform: uppercase; }
+h2 { font-size: clamp(1.9rem, 4vw, 2.75rem); text-transform: uppercase; }
+h3 { font-size: 1.25rem; }
+
+p { margin: 0 0 var(--space-sm); max-width: 62ch; }
+
+a { color: inherit; text-decoration: none; }
+
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* keyboard focus visibility -- do not remove, this matters for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------
+   4. LAYOUT HELPERS
+------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-w);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.section {
+  padding: var(--space-xl) 0;
+}
+
+.section--tight {
+  padding: var(--space-lg) 0;
+}
+
+.section--dim {
+  background: var(--paper-dim);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@media (min-width: 760px) {
+  .grid--2 { grid-template-columns: 1fr 1fr; }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* -------------------------------------------------------------------------
+   5. BUTTONS
+------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.6rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+.btn-primary:hover { background: #b80322; border-color: #b80322; }
+
+.btn-dark {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+.btn-dark:hover { background: #000; }
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+/* used on dark backgrounds (CTA bands) */
+.btn-on-dark {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--ink);
+}
+.btn-on-dark:hover { background: var(--red); border-color: var(--red); color: var(--white); }
+
+.btn:hover { transform: translateY(-2px); }
+
+/* -------------------------------------------------------------------------
+   6. SITE HEADER / NAVIGATION
+------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/*
+  ⚙️ ADD YOUR LOGO IMAGE HERE
+  Right now the logo is just styled text so the site works before you have
+  a logo file. To swap in your real logo:
+    1. Save your logo as images/logo.png
+    2. Replace the <span class="logo-text">...</span> block in each HTML
+       file's header with:
+       <img src="images/logo.png" alt="1220X RoboRedux logo" class="logo-img">
+    3. Uncomment the .logo-img rule below if you need to resize it.
+*/
+/*
+.logo-img { height: 40px; width: auto; }
+*/
+
+.logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.logo-highlight { color: var(--red); }
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-list a {
+  position: relative;
+  padding: 0.25rem 0;
+}
+.nav-list a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+.nav-list a:hover::after,
+.nav-list a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--ink);
+}
+
+/* -------------------------------------------------------------------------
+   7. "FRAME" CORNER-BRACKET COMPONENT
+   A recurring visual motif (like a camera/vision targeting frame) that nods
+   to the team's sensor + autonomous-programming work. Wraps photo
+   placeholders and a couple of highlighted panels around the site.
+------------------------------------------------------------------------- */
+.frame {
+  position: relative;
+  padding: 14px;
+}
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+.frame::before {
+  background-image:
+    linear-gradient(to right, var(--ink) 2px, transparent 2px),
+    linear-gradient(to bottom, var(--ink) 2px, transparent 2px),
+    linear-gradient(to left, var(--ink) 2px, transparent 2px),
+    linear-gradient(to top, var(--ink) 2px, transparent 2px);
+  background-position: top left, top left, bottom right, bottom right;
+}
+.frame::after {
+  background-image:
+    linear-gradient(to left, var(--red) 2px, transparent 2px),
+    linear-gradient(to bottom, var(--red) 2px, transparent 2px),
+    linear-gradient(to right, var(--red) 2px, transparent 2px),
+    linear-gradient(to top, var(--red) 2px, transparent 2px);
+  background-position: top right, top right, bottom left, bottom left;
+}
+
+/* -------------------------------------------------------------------------
+   8. HERO
+------------------------------------------------------------------------- */
+.hero {
+  padding: var(--space-xl) 0;
+}
+
+.hero-inner {
+  display: grid;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .hero-inner { grid-template-columns: 1.1fr 0.9fr; }
+}
+
+.hero-id {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: var(--space-sm);
+}
+.hero-id .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.hero-tagline {
+  font-size: 1.15rem;
+  max-width: 46ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+/* -------------------------------------------------------------------------
+   9. STAT STRIP ("By the Numbers")
+------------------------------------------------------------------------- */
+.stat-strip {
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 700px) {
+  .stat-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.stat {
+  padding: var(--space-md) var(--space-sm);
+  border-right: 1px solid rgba(242, 243, 241, 0.15);
+  border-bottom: 1px solid rgba(242, 243, 241, 0.15);
+}
+.stat:nth-child(2n) { border-right: none; }
+@media (min-width: 700px) {
+  .stat:nth-child(2n) { border-right: 1px solid rgba(242, 243, 241, 0.15); }
+  .stat:nth-child(4n) { border-right: none; }
+  .stat { border-bottom: none; }
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--white);
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--paper-dim);
+  margin-top: 0.25rem;
+}
+
+/* -------------------------------------------------------------------------
+   10. EYEBROWS + SECTION HEADINGS
+------------------------------------------------------------------------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-xs);
+  display: block;
+}
+.eyebrow::before { content: "// "; color: var(--blue); }
+
+.section-head {
+  max-width: 60ch;
+  margin-bottom: var(--space-lg);
+}
+
+/* -------------------------------------------------------------------------
+   11. CARDS
+------------------------------------------------------------------------- */
+.card {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  padding: var(--space-md);
+}
+
+.info-card h3 { margin-bottom: 0.5rem; }
+.info-card p { margin-bottom: 0; font-size: 0.95rem; }
+
+/* team member placeholder cards */
+.team-card {
+  text-align: center;
+}
+.team-card h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin: var(--space-sm) 0 0.15rem;
+}
+.team-card p {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--blue);
+  margin: 0;
+}
+
+/* sponsorship tier cards */
+.tier-card {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+.tier-head {
+  padding: var(--space-md);
+  color: var(--white);
+}
+.tier-card--bronze .tier-head { background: var(--bronze); }
+.tier-card--silver .tier-head { background: var(--silver); }
+.tier-card--gold .tier-head { background: var(--gold); }
+
+.tier-name {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+.tier-price {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.tier-benefits {
+  padding: var(--space-md);
+  flex: 1;
+}
+.tier-benefits li {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+.tier-benefits li:last-child { border-bottom: none; }
+.tier-benefits li::before {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------------------
+   12. PAYMENT / INFO PANEL
+------------------------------------------------------------------------- */
+.panel {
+  background: var(--paper-dim);
+  border-left: 4px solid var(--blue);
+  padding: var(--space-md) var(--space-lg);
+}
+.panel h3 { margin-bottom: var(--space-sm); }
+.panel-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+.panel-row:last-child { border-bottom: none; }
+.panel-row strong {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--blue);
+  min-width: 9rem;
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------
+   13. CTA BAND
+------------------------------------------------------------------------- */
+.cta-band {
+  background: var(--ink);
+  color: var(--white);
+  text-align: center;
+}
+.cta-band h2 { color: var(--white); }
+.cta-band p {
+  max-width: 46ch;
+  margin: 0 auto var(--space-md);
+  color: var(--paper-dim);
+}
+.cta-band .btn { margin: 0 0.4rem; }
+
+/* -------------------------------------------------------------------------
+   14. IMAGE PLACEHOLDER
+   Used everywhere a real photo will eventually go. See the HTML comments
+   next to each one for the exact filename to use when you add your image.
+------------------------------------------------------------------------- */
+.img-placeholder {
+  aspect-ratio: 4 / 3;
+  background: var(--paper-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  opacity: 0.55;
+}
+.img-placeholder--wide { aspect-ratio: 16 / 9; }
+.img-placeholder--square { aspect-ratio: 1 / 1; }
+.img-placeholder svg { width: 34px; height: 34px; }
+.img-placeholder span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+/* -------------------------------------------------------------------------
+   15. FOOTER
+------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--ink);
+  color: var(--paper-dim);
+  padding: var(--space-lg) 0 var(--space-md);
+}
+.footer-inner {
+  display: grid;
+  gap: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid rgba(242, 243, 241, 0.15);
+}
+@media (min-width: 700px) {
+  .footer-inner { grid-template-columns: repeat(3, 1fr); }
+}
+.footer-col h3 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+.footer-col a:hover { color: var(--red); }
+.footer-bottom {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-align: center;
+  padding-top: var(--space-md);
+  margin: 0;
+  color: rgba(242, 243, 241, 0.5);
+}
+
+/* -------------------------------------------------------------------------
+   16. RESPONSIVE — MOBILE NAV
+------------------------------------------------------------------------- */
+@media (max-width: 759px) {
+  .nav-toggle { display: flex; }
+
+  .nav-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--paper);
+    border-bottom: 2px solid var(--ink);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+  .nav-list.is-open { max-height: 260px; }
+  .nav-list li { width: 100%; }
+  .nav-list a {
+    display: block;
+    padding: 1rem var(--space-md);
+    width: 100%;
+  }
+
+  .panel-row { flex-direction: column; gap: 0.15rem; }
+  .panel-row strong { min-width: 0; }
+}
+
+/* -------------------------------------------------------------------------
+   17. MOTION + ACCESSIBILITY
+------------------------------------------------------------------------- */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-id .dot { animation: none; }
+  .btn:hover { transform: none; }
+}
+
+/* -------------------------------------------------------------------------
+   18. HERO PHOTO BACKGROUND (for logos/graphics with transparent backgrounds)
+------------------------------------------------------------------------- */
+.hero-photo-bg {
+  aspect-ratio: 1 / 1;
+  background: var(--paper-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+.hero-photo-bg img {
+  max-width: 75%;
+  max-height: 75%;
+  object-fit: contain;
+}
+
+/* -------------------------------------------------------------------------
+   19. SPONSOR WALL (companies who currently sponsor the team)
+------------------------------------------------------------------------- */
+.sponsor-card { text-align: left; }
+.sponsor-card .frame { margin-bottom: var(--space-sm); }
+.sponsor-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem;
+}
+.sponsor-card p { font-size: 0.9rem; margin-bottom: 0; }
+
+.tier-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+.tier-badge--bronze { background: var(--bronze); }
+.tier-badge--silver { background: var(--silver); }
+.tier-badge--gold { background: var(--gold); }
+
+/* -------------------------------------------------------------------------
+   20. CENTERED WRAPPING GRID (roster + sponsor wall, so a leftover
+   row of cards centers instead of sitting flush left)
+------------------------------------------------------------------------- */
+.center-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+}
+.center-grid > * {
+  flex: 1 1 260px;
+  max-width: 320px;
+}
