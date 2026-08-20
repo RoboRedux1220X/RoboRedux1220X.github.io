@@ -724,3 +724,57 @@ button:focus-visible {
   flex: 1 1 260px;
   max-width: 320px;
 }
+
+/* -------------------------------------------------------------------------
+   21. SPONSOR LOGO SIZING FIX
+   Sponsor logos are different shapes/sizes, so without a fixed box they
+   made the two sponsor cards uneven heights. This locks every sponsor
+   logo into the same size box (16:9) and shrinks it to fit inside,
+   keeping its own proportions, so all sponsor cards line up evenly.
+------------------------------------------------------------------------- */
+.sponsor-card .frame {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.sponsor-card .frame img {
+  max-width: 85%;
+  max-height: 85%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* -------------------------------------------------------------------------
+   22. PHOTO FIT FIX
+   Same root cause as the sponsor logo fix above: these photos have no
+   fixed box, so each one displays at its own natural size/shape instead
+   of filling its frame. This locks each into a matching box and scales/
+   crops the photo (centered) to fill it completely.
+------------------------------------------------------------------------- */
+
+/* Home page "On the Field" photo strip (3-across gallery) */
+.grid--3 .frame {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.grid--3 .frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* About page "Meet the Team" roster photos */
+.team-card .frame {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.team-card .frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
