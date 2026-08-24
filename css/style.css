@@ -55,7 +55,7 @@
   /* type */
   --font-display: "Space Grotesk", "Arial Black", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "League Spartan", system-ui, -apple-system, sans-serif;
 
   /* spacing scale */
   --space-xs: 0.5rem;
@@ -777,4 +777,13 @@ button:focus-visible {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+/* -------------------------------------------------------------------------
+   23. SPONSOR NAME LINKS
+   Lets a sponsor's name link out to their website.
+------------------------------------------------------------------------- */
+.sponsor-card h4 a:hover {
+  color: var(--red);
+  text-decoration: underline;
 }
