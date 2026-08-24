@@ -787,3 +787,14 @@ button:focus-visible {
   color: var(--red);
   text-decoration: underline;
 }
+
+/* -------------------------------------------------------------------------
+   24. SMALL HEADING SPACING FIX
+   Letter-spacing above is tuned for large headline sizes. At the small
+   sizes used for team/sponsor card names, that same em value shrinks to
+   almost nothing, so these get their own wider spacing for readability.
+------------------------------------------------------------------------- */
+.team-card h4,
+.sponsor-card h4 {
+  letter-spacing: 0.1em;
+}
